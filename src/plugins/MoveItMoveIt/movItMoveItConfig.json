@@ -1,0 +1,247 @@
+{
+  "templates": {
+    "tempyTemp": "G90\nG0 X10\n${params.things.join('\\n')}\nG28\n",
+    "tempyFile": "0:/macros/funkyTown_template"
+  },
+  "scripts": {
+    "setPos": "if (!window.moveitmoveit.movitPositions) window.moveitmoveit.movitPositions = {};\n\nlet axes = window.moveitmoveit.model.move.axes;\nlet mp = window.moveitmoveit.movitPositions;\nlet pv = mp[params.posVar] = {};\n\naxes.forEach(a => (pv[a.letter] = a.machinePosition));",
+    "goPos": "let mp = window.moveitmoveit.movitPositions;\nif (!mp) return;\n\nlet pv = mp[params.posVar];\nif (!pv) return;\n\nlet axes = window.moveitmoveit.model.move.axes;\nlet za = axes.find(a => a.letter === 'Z');\nif (!za) return;\n\ngcode = 'G53 G1 Z' + (za.max - 5) + '\\n';\ngcode += 'G53 G1 X' + pv['X'] + ' Y' + pv['Y'] + '\\n';\ngcode += 'G53 G1 Z' + pv['Z'] + '\\n';\n\nconsole.log(gcode);"
+  },
+
+  "movementPanels": [
+    {
+      "name": "default",
+      "rows": [
+        [
+          {
+            "name": "Home X",
+            "code": "G28 X",
+            "color": "warning"
+          },
+          {
+            "name": "Home Y",
+            "code": "G28 Y",
+            "color": "warning"
+          },
+          {
+            "name": "Home Z",
+            "code": "G28 Z",
+            "color": "warning"
+          },
+          {
+            "name": "Park Z",
+            "color": "warning",
+            "code": "G53 G0 Z104",
+            "outline": true
+          },
+          {
+            "name": "Park It",
+            "color": "warning",
+            "code": "G53 G0 Z104\nG53 G0 X5 Y5"
+          }
+        ],
+        [
+          {
+            "name": "mdi-arrow-top-left",
+            "val": "compass",
+            "axis": "-X,Y",
+            "color": "success",
+            "outline": true
+          },
+          {
+            "name": "mdi-arrow-up-bold",
+            "val": "compass",
+            "axis": "Y",
+            "prefix": "y",
+            "color": "success"
+          },
+          {
+            "name": "mdi-arrow-top-right",
+            "val": "compass",
+            "axis": "X,Y",
+            "color": "success",
+            "outline": true
+          },
+          {
+            "name": "mdi-arrow-up-bold",
+            "val": "zvar",
+            "axis": "Z",
+            "suffix": "z",
+            "color": "primary"
+          },
+          { "name": "0.2", "val": "zvar", "set": "0.2", "color": "primary", "outline": true }
+        ],
+        [
+          {
+            "name": "mdi-arrow-left-bold",
+            "val": "compass",
+            "axis": "-X",
+            "prefix": "x",
+            "color": "success"
+          },
+          {
+            "val": "compass"
+          },
+          {
+            "name": "mdi-arrow-right-bold",
+            "val": "compass",
+            "axis": "X",
+            "suffix": "x",
+            "color": "success"
+          },
+          {
+            "val": "zvar",
+            "color": "primary",
+            "outline": true
+          },
+          { "name": "1", "val": "zvar", "set": "1", "color": "primary", "outline": true }
+        ],
+        [
+          {
+            "name": "mdi-arrow-bottom-left",
+            "val": "compass",
+            "axis": "-X,-Y",
+            "color": "success",
+            "outline": true
+          },
+          {
+            "name": "mdi-arrow-down-bold",
+            "val": "compass",
+            "axis": "-Y",
+            "prefix": "y",
+            "color": "success"
+          },
+          {
+            "name": "mdi-arrow-bottom-right",
+            "val": "compass",
+            "axis": "X,-Y",
+            "color": "success",
+            "outline": true
+          },
+          {
+            "name": "mdi-arrow-down-bold",
+            "val": "zvar",
+            "axis": "-Z",
+            "suffix": "z",
+            "color": "primary"
+          },
+          { "name": "5", "val": "zvar", "set": "5", "color": "primary", "outline": true }
+        ],
+        [ { "name": "0.1", "val": "compass", "set": "0.1", "color": "success", "outline": true },
+          { "name": "0.2", "val": "compass", "set": "0.2", "color":  "success", "outline":  true },
+          { "name": "0.5", "val": "compass", "set": "0.5", "color":  "success", "outline":  true },
+          { "name": "1", "val": "compass", "set": "1", "color":  "success", "outline":  true },
+          { "name": "10", "val": "zvar", "set": "10", "color": "primary", "outline": true }
+        ],
+        [ { "name": "10", "val": "compass", "set": "10", "color":  "success", "outline":  true },
+          { "name": "25", "val": "compass", "set": "25", "color":  "success", "outline":  true },
+          { "name": "50", "val": "compass", "set": "50", "color":  "success", "outline":  true },
+          { "name": "100", "val": "compass", "set": "100", "color":  "success", "outline":  true },
+          { "name": "20", "val": "zvar", "set": "20", "color": "primary", "outline": true }
+        ],
+        [
+          { "name": "zero X",
+            "color": "warning",
+            "template": "tempyTemp",
+            "code": "G10 L20 P1 X0"
+          },
+          {
+            "name": "zero Y",
+            "color": "warning",
+            "code": "G10 L20 P1 Y0"
+          },
+          {
+            "name": "zero Z",
+            "color": "warning",
+            "code": "G10 L20 P1 Z0"
+          },
+          {
+            "name": "zero XYZ",
+            "color": "warning",
+            "code": "G10 L20 P1 X0 Y0 Z0"
+          }
+        ],
+        [
+          { "name": "Fixt. A",
+            "color": "primary",
+            "fixture": "one"
+          },
+          {
+            "name": "Fixt. B",
+            "color": "primary",
+            "fixture": "two"
+          },
+          {
+            "name": "Fixt. C",
+            "color": "primary",
+            "fixture": "three"
+          },
+          {
+            "name": "Fixt. D",
+            "color": "primary",
+            "fixture": "four"
+          }
+        ],
+        [
+          { "name": "Fixt. A",
+            "color": "primary",
+            "outline": true,
+            "fixture": "one:over"
+          },
+          {
+            "name": "Fixt. B",
+            "color": "primary",
+            "outline": true,
+            "fixture": "two:over"
+          },
+          {
+            "name": "Fixt. C",
+            "color": "primary",
+            "outline": true,
+            "fixture": "three:over"
+          },
+          {
+            "name": "Fixt. D",
+            "color": "primary",
+            "outline": true,
+            "fixture": "four:over"
+          }
+        ]
+      ]
+    },
+    {
+      "name": "macros",
+      "rows": [
+        [
+          { "name": "set Fixt. A",
+            "color": "primary",
+            "outline": true,
+            "fixture": "one",
+            "set": true
+          },
+          {
+            "name": "set Fixt. B",
+            "color": "primary",
+            "outline": true,
+            "fixture": "two",
+            "set": true
+          },
+          {
+            "name": "set Fixt. C",
+            "color": "primary",
+            "outline": true,
+            "fixture": "three",
+            "set": true
+          },
+          {
+            "name": "set Fixt. D",
+            "color": "primary",
+            "outline": true,
+            "fixture": "four",
+            "set": true
+          }
+        ]
+      ]
+    }
+  ]
+}

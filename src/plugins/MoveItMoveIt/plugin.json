@@ -1,0 +1,8 @@
+{
+  "id": "MoveItMoveIt",
+  "name": "Move-It-Move-It",
+  "author": "Arron Bates",
+  "version": "1.0.0",
+  "dwcVersion": "auto",
+  "dwcWebpackChunk": "MoveItMoveIt"
+}
