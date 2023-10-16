@@ -54,7 +54,7 @@
 		</v-app-bar>
 
 		<v-main id="content" :style="`margin-bottom: ${bottomMargin}px`">
-			<v-container class="hidden-sm-and-down" id="global-container" fluid>
+			<v-container id="global-container" fluid>
 				<fff-container-panel v-if="isFFForUnset" />
 				<cnc-container-panel v-else />
 			</v-container>

@@ -95,7 +95,10 @@ export const Menu = Vue.observable<Record<string, MenuCategory>>({
 			{
 				icon: "mdi-list-status",
 				caption: "menu.control.status",
-				condition: () => Vue.prototype.$vuetify && Vue.prototype.$vuetify.breakpoint.smAndDown,
+				condition: () => {
+					return false;
+					// return Vue.prototype.$vuetify && Vue.prototype.$vuetify.breakpoint.smAndDown;
+				},
 				path: "/Status",
 				component: Status
 			},

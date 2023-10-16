@@ -5,7 +5,7 @@
 </style>
 
 <template>
-	<div>
+	<div v-if="showPanelStatus">
 		<v-row align="stretch" dense>
 			<v-col cols="3" lg="2" md="2" order="1" order-lg="1" sm="4">
 				<v-card class="justify-center fill-height">
@@ -156,6 +156,17 @@ import store from "@/store";
 import { isPrinting } from "@/utils/enums";
 
 export default Vue.extend({
+  data() {
+    return {
+      showPanelStatus: true
+    };
+  },
+  watch: {
+    '$route'(to, from) {
+      let s: string = to.fullPath + '';
+      this.showPanelStatus = (s === '/Plugins/MoveItMoveIt' || s === '/Console' || s === '/');
+    }
+  },
 	computed: {
 		currentMove(): CurrentMove { return store.state.machine.model.move.currentMove; },
 		mainboard(): Board | undefined { return store.state.machine.model.boards.find(board => !board.canAddress); },
